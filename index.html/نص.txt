@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سمساري - أسيوط</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #000000 0%, #333333 100%);
+        }
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <div class="bg-white px-6 py-3 rounded-xl shadow-lg border-2 border-gray-200">
+                        <h1 class="text-3xl font-bold text-black tracking-wide" style="font-family: 'Amiri', 'Scheherazade New', 'Noto Kufi Arabic', serif; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); letter-spacing: 2px;">
+                            سمساري
+                        </h1>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <button onclick="showAddRoomForm()" class="bg-white text-black px-6 py-2 rounded-lg font-semibold hover:bg-gray-200 transition-colors">
+                        إضافة غرفة
+                    </button>
+                    <button onclick="showSearchForm()" class="bg-black text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-800 transition-colors">
+                        البحث عن غرفة
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Welcome Section -->
+        <div id="welcomeSection" class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-gray-800 mb-4">مرحباً بك في سمساري</h2>
+            <p class="text-xl text-gray-600 mb-8">أفضل مكان للعثور على غرفة مناسبة أو تأجير غرفتك في أسيوط</p>
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="bg-white p-8 rounded-xl shadow-lg card-hover">
+                    <div class="text-6xl mb-4">🔍</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">ابحث عن غرفة</h3>
+                    <p class="text-gray-600 mb-6">تصفح مئات الغرف المتاحة واعثر على المكان المثالي لإقامتك الجامعية</p>
+                    <button onclick="showSearchForm()" class="bg-black text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors w-full">
+                        ابدأ البحث
+                    </button>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg card-hover">
+                    <div class="text-6xl mb-4">🏡</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">أجر غرفتك</h3>
+                    <p class="text-gray-600 mb-6">لديك غرفة فارغة؟ اعرضها على المنصة واحصل على دخل إضافي</p>
+                    <button onclick="showAddRoomForm()" class="bg-black text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors w-full">
+                        أضف غرفة
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Room Form -->
+        <div id="addRoomForm" class="hidden bg-white rounded-xl shadow-lg p-8 mb-8">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6">إضافة غرفة جديدة</h3>
+            <form onsubmit="addRoom(event)" class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">اسم المؤجر</label>
+                    <input type="text" id="ownerName" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">رقم الهاتف</label>
+                    <input type="tel" id="ownerPhone" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent" placeholder="01xxxxxxxxx">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">المنطقة</label>
+                    <select id="roomArea" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent">
+                        <option value="">اختر المنطقة</option>
+                        <option value="وسط البلد">وسط البلد</option>
+                        <option value="الوليدية">الوليدية</option>
+                        <option value="منفلوط">منفلوط</option>
+                        <option value="الفتح">الفتح</option>
+                        <option value="الأربعين">الأربعين</option>
+                        <option value="الجامعة">منطقة الجامعة</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">السعر الشهري (جنيه)</label>
+                    <input type="number" id="roomPrice" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">نوع الغرفة</label>
+                    <select id="roomType" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent">
+                        <option value="">اختر النوع</option>
+                        <option value="غرفة مفردة">غرفة مفردة</option>
+                        <option value="غرفة مشتركة">غرفة مشتركة</option>
+                        <option value="شقة كاملة">شقة كاملة</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">المرافق المتاحة</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="facilities mr-2" value="واي فاي"> واي فاي
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="facilities mr-2" value="مكيف"> مكيف
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="facilities mr-2" value="حمام خاص"> حمام خاص
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="facilities mr-2" value="مطبخ"> مطبخ
+                        </label>
+                    </div>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-gray-700 font-semibold mb-2">وصف الغرفة</label>
+                    <textarea id="roomDescription" rows="3" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent" placeholder="اكتب وصفاً مفصلاً عن الغرفة..."></textarea>
+                </div>
+                <div class="md:col-span-2 flex gap-4">
+                    <button type="submit" class="bg-black text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors">
+                        إضافة الغرفة
+                    </button>
+                    <button type="button" onclick="hideAddRoomForm()" class="bg-white text-black border border-black px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                        إلغاء
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Search Form -->
+        <div id="searchForm" class="hidden bg-white rounded-xl shadow-lg p-8 mb-8">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6">البحث عن غرفة</h3>
+            <div class="grid md:grid-cols-4 gap-4">
+                <select id="searchArea" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent">
+                    <option value="">جميع المناطق</option>
+                    <option value="وسط البلد">وسط البلد</option>
+                    <option value="الوليدية">الوليدية</option>
+                    <option value="منفلوط">منفلوط</option>
+                    <option value="الفتح">الفتح</option>
+                    <option value="الأربعين">الأربعين</option>
+                    <option value="الجامعة">منطقة الجامعة</option>
+                </select>
+                <select id="searchType" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent">
+                    <option value="">جميع الأنواع</option>
+                    <option value="غرفة مفردة">غرفة مفردة</option>
+                    <option value="غرفة مشتركة">غرفة مشتركة</option>
+                    <option value="شقة كاملة">شقة كاملة</option>
+                </select>
+                <input type="number" id="maxPrice" placeholder="الحد الأقصى للسعر" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent">
+                <button onclick="searchRooms()" class="bg-black text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors">
+                    بحث
+                </button>
+            </div>
+        </div>
+
+        <!-- Rooms List -->
+        <div id="roomsList" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Sample rooms will be displayed here -->
+        </div>
+    </main>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4">
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">معلومات التواصل</h3>
+            <div id="contactInfo" class="mb-6"></div>
+            <button onclick="closeContactModal()" class="bg-gray-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-600 transition-colors w-full">
+                إغلاق
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let rooms = [
+            {
+                id: 1,
+                ownerName: "أحمد محمد",
+                phone: "01012345678",
+                area: "وسط البلد",
+                price: 800,
+                type: "غرفة مفردة",
+                facilities: ["واي فاي", "مكيف"],
+                description: "غرفة واسعة ومريحة قريبة من الجامعة"
+            },
+            {
+                id: 2,
+                ownerName: "فاطمة علي",
+                phone: "01098765432",
+                area: "الوليدية",
+                price: 600,
+                type: "غرفة مشتركة",
+                facilities: ["واي فاي", "حمام خاص"],
+                description: "غرفة نظيفة في منطقة هادئة"
+            },
+            {
+                id: 3,
+                ownerName: "محمود حسن",
+                phone: "01155667788",
+                area: "الجامعة",
+                price: 1200,
+                type: "شقة كاملة",
+                facilities: ["واي فاي", "مكيف", "مطبخ", "حمام خاص"],
+                description: "شقة مفروشة بالكامل قريبة جداً من الجامعة"
+            }
+        ];
+
+        function showAddRoomForm() {
+            document.getElementById('welcomeSection').classList.add('hidden');
+            document.getElementById('searchForm').classList.add('hidden');
+            document.getElementById('addRoomForm').classList.remove('hidden');
+        }
+
+        function hideAddRoomForm() {
+            document.getElementById('addRoomForm').classList.add('hidden');
+            document.getElementById('welcomeSection').classList.remove('hidden');
+            displayRooms(rooms);
+        }
+
+        function showSearchForm() {
+            document.getElementById('welcomeSection').classList.add('hidden');
+            document.getElementById('addRoomForm').classList.add('hidden');
+            document.getElementById('searchForm').classList.remove('hidden');
+            displayRooms(rooms);
+        }
+
+        function addRoom(event) {
+            event.preventDefault();
+            
+            const facilities = Array.from(document.querySelectorAll('.facilities:checked')).map(cb => cb.value);
+            
+            const newRoom = {
+                id: rooms.length + 1,
+                ownerName: document.getElementById('ownerName').value,
+                phone: document.getElementById('ownerPhone').value,
+                area: document.getElementById('roomArea').value,
+                price: parseInt(document.getElementById('roomPrice').value),
+                type: document.getElementById('roomType').value,
+                facilities: facilities,
+                description: document.getElementById('roomDescription').value
+            };
+
+            rooms.push(newRoom);
+            
+            // Reset form
+            event.target.reset();
+            
+            // Show success message
+            alert('تم إضافة الغرفة بنجاح! ستظهر في قائمة الغرف المتاحة.');
+            
+            hideAddRoomForm();
+        }
+
+        function searchRooms() {
+            const area = document.getElementById('searchArea').value;
+            const type = document.getElementById('searchType').value;
+            const maxPrice = document.getElementById('maxPrice').value;
+
+            let filteredRooms = rooms.filter(room => {
+                return (!area || room.area === area) &&
+                       (!type || room.type === type) &&
+                       (!maxPrice || room.price <= parseInt(maxPrice));
+            });
+
+            displayRooms(filteredRooms);
+        }
+
+        function displayRooms(roomsToShow) {
+            const roomsList = document.getElementById('roomsList');
+            
+            if (roomsToShow.length === 0) {
+                roomsList.innerHTML = '<div class="col-span-full text-center py-12"><p class="text-xl text-gray-600">لا توجد غرف متاحة بالمعايير المحددة</p></div>';
+                return;
+            }
+
+            roomsList.innerHTML = roomsToShow.map(room => `
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h4 class="text-xl font-bold text-gray-800">${room.type}</h4>
+                            <span class="bg-black text-white px-3 py-1 rounded-full font-semibold">${room.price} ج.م/شهر</span>
+                        </div>
+                        <div class="space-y-2 mb-4">
+                            <p class="text-gray-600"><span class="font-semibold">📍 المنطقة:</span> ${room.area}</p>
+                            <p class="text-gray-600"><span class="font-semibold">👤 المؤجر:</span> ${room.ownerName}</p>
+                            <p class="text-gray-600"><span class="font-semibold">📝 الوصف:</span> ${room.description}</p>
+                        </div>
+                        <div class="mb-4">
+                            <p class="font-semibold text-gray-700 mb-2">المرافق المتاحة:</p>
+                            <div class="flex flex-wrap gap-2">
+                                ${room.facilities.map(facility => `
+                                    <span class="bg-gray-200 text-black px-2 py-1 rounded text-sm">${facility}</span>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <button onclick="showContact('${room.ownerName}', '${room.phone}')" class="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors">
+                            📞 تواصل مع المؤجر
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function showContact(ownerName, phone) {
+            document.getElementById('contactInfo').innerHTML = `
+                <div class="space-y-4">
+                    <p class="text-lg"><span class="font-semibold">اسم المؤجر:</span> ${ownerName}</p>
+                    <p class="text-lg"><span class="font-semibold">رقم الهاتف:</span> 
+                        <a href="tel:${phone}" class="text-black hover:text-gray-600 font-semibold underline">${phone}</a>
+                    </p>
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <p class="text-sm text-gray-800">💡 يمكنك الضغط على رقم الهاتف للاتصال مباشرة</p>
+                    </div>
+                </div>
+            `;
+            document.getElementById('contactModal').classList.remove('hidden');
+        }
+
+        function closeContactModal() {
+            document.getElementById('contactModal').classList.add('hidden');
+        }
+
+        // Initialize the page
+        displayRooms(rooms);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'986c0cf434f1c6b7',t:'MTc1OTE1NDg4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
